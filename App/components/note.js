@@ -14,12 +14,12 @@ export default class Main extends React.Component {
     return (
       <View key={this.props.keyval} style={styles.note}>
 
-      <Text style={styles.noteText}>
+      <Text style={styles.noteText} >
       {this.props.val.date}
       </Text>
-      <Text style={styles.noteText}>
-      {this.props.val.note}
-      </Text>
+      <TextInput style={styles.noteText} onChangeText={(value)=>this.updateNote(value)} value={this.props.val.note}>
+   
+      </TextInput>
 
       <TouchableOpacity onPress={this.props.deleteMethod} style={styles.noteDelete}>
         <Text style={styles.noteDeleteText}>
@@ -29,6 +29,12 @@ export default class Main extends React.Component {
 
       </View>
     );
+  }
+
+  updateNote(value){
+    alert(value);
+    this.props.val.note = value;
+    this.setState(this.props);
   }
 }
 

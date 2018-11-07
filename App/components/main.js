@@ -1,4 +1,6 @@
 import React from 'react';
+import firebase from 'react-native-firebase';
+
 import { 
   StyleSheet,
   Text,
@@ -9,6 +11,20 @@ import {
 
 import Note from './note';  
 
+
+/*
+const config = {
+  apiKey: "AIzaSyDV9zbuC0G1DB4dkrNVXap1Qlez_0gbiBo",
+  authDomain: "",
+  databaseURL: "https://contacts-5665d.firebaseio.com",
+  projectId: "contacts-5665d",
+  storageBucket: "",
+  messagingSenderId: "965904642670"
+};
+
+
+const firebaseApp = firebase.initializeApp(config);*/
+
 export default class Main extends React.Component {
  
   constructor(props){
@@ -17,12 +33,22 @@ export default class Main extends React.Component {
       noteArray:[],
       noteText: ''
     }
+
+    firebase.auth()
+  .signInAnonymously()
+  .then(credential => {
+    alert(credential);
+    if (credential) {
+      console.log('default app user ->', credential.user.toJSON());
+    }
+  });
   }
 
   render() {
     let notes = this.state.noteArray.map((val,key) =>{
       return <Note key={key} keyval={key} val={val}
-          deleteMethod={()=> ThisType.deleteNote(key)}/>
+          updateNote={()=>this.updateNote(key)}
+          deleteMethod={()=> this.deleteNote(key)}/>
     });
 
     return (
@@ -58,6 +84,11 @@ export default class Main extends React.Component {
   deleteNote(key){
     this.state.noteArray.splice(key,1);
     this.setState({noteArray: this.state.noteArray})
+  }
+
+  updateNote(key,value){
+    alert(value);
+   // this.state.noteArray.find(key);
   }
 
   addNote(){
