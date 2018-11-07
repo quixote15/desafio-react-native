@@ -7,13 +7,15 @@ import {
   ScrollView,
   TouchableOpacity } from 'react-native';
 
+  import {CheckBox} from 'native-base';
+
 
 export default class Main extends React.Component {
  
   render() {
     return (
       <View key={this.props.keyval} style={styles.note}>
-
+      <CheckBox checked={true} />
       <Text style={styles.noteText} >
       {this.props.val.date}
       </Text>
