@@ -1,5 +1,5 @@
 import React from 'react';
-import firebase from 'react-native-firebase';
+import { Container, Header,Tabs,Tab, Content, Footer, FooterTab, Button} from 'native-base';
 
 import { 
   StyleSheet,
@@ -10,7 +10,8 @@ import {
   TouchableOpacity } from 'react-native';
 
 import Note from './note';  
-
+import Tab1 from './tab';
+import Tab2 from './tab-two';
 
 /*
 const config = {
@@ -31,17 +32,11 @@ export default class Main extends React.Component {
     super(props);
     this.state = {
       noteArray:[],
+      doneArray:[],
       noteText: ''
     }
 
-    firebase.auth()
-  .signInAnonymously()
-  .then(credential => {
-    alert(credential);
-    if (credential) {
-      console.log('default app user ->', credential.user.toJSON());
-    }
-  });
+
   }
 
   render() {
@@ -51,16 +46,24 @@ export default class Main extends React.Component {
           deleteMethod={()=> this.deleteNote(key)}/>
     });
 
+    let doneNotes = this.state.doneArray.map((val,key) =>{
+      return <Note key={key} keyval={key} val={val}
+          updateNote={()=>this.updateNote(key)}
+          deleteMethod={()=> this.deleteNote(key)}/>
+    });
     return (
       <View style={styles.container}>
-      <View style={styles.header}>
-        <Text  style={styles.headerText} >
-        Hugo's Todo List</Text>
-      </View>
-       <ScrollView style={styles.scrollContainer}>
-        {notes}
-       </ScrollView>
-
+         <Header hasTabs />
+         
+        <Tabs style={styles.header}>
+          <Tab heading="active">
+          <Tab1 notes={notes}/>
+          </Tab>
+          <Tab heading="done">
+          <Tab2 notes={doneNotes}/>
+          </Tab>
+        </Tabs>
+ 
        <View style={styles.footer}>
           <TextInput
             style={styles.textInput}
@@ -77,6 +80,8 @@ export default class Main extends React.Component {
          <Text style={styles.addButtonText}>+
          </Text>
        </TouchableOpacity>
+
+     
       </View>
     );
   }
